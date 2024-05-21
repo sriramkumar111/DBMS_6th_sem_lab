@@ -1,0 +1,192 @@
+//sname with left side padding by atleast 3*
+46) SELECT SNAME,LPAD(SNAME,LENGTH(SNAME)+3),'*') FROM SAILOR;
+
+//length of name
+47) SELECT LENGTH(SNAME||MNAME||SURNAME) AS SNAME_LEN FROM SAILOR;
+
+//sailor names in uppercase
+48) SELECT UPPER(SNAME||MNAME||SURNAME) AS SNAME_CAPS FROM SAILOR;
+
+//sailor names in lowercase
+49) SELECT LOWER(SNAME||MNAME||SURNAME) AS SNAME_CAPS FROM SAILOR;
+
+//sailor names in sentence case
+50) SELECT INITCAP(SNAME)|| ' ' ||LOWER(MNAME|| ' ' ||SURNAME) AS SENT_CASE FROM SAILOR;
+
+//display 4th to 7th letter of sname
+51)SELECT SNAME,SUBSTR(SNAME,4,4) FROM SAILOR;
+
+//display 4th and 7th letter
+52)SELECT SNAME,SUBSTR(SNAME,4,1) AS FOURTH,SUBSTR(SNAME,7,1) AS SEVENTH FROM SAILOR;
+
+//concat sid,sname
+53) SELECT SID|| ' ' ||SNAME AS ID_NAME FROM SAILOR;
+
+//display square root rating
+54)SELECT RATING,SQRT(RATING) AS SQ_RT_RATING FROM SAILOR;
+
+//display floor values ages
+55)SELECT AGE,FLOOR(AGE) FROM SAILOR;
+
+//display ceiling age values
+56)SELECT AGE,CEIL(AGE) FROM SAILOR;
+
+//sname wih first 2 letters off
+57)SELECT SNAME,SUSBSTR(SNAME,3,LENGTH(SNAME)-2) FROM SAILOR;
+
+//list months between today and reservation date
+58)SELECT ROUND(MONTHS_BETWEEN(SYSDATE,DAY)) AS MONTHS_CURR_TO_RESV  FROM RESERVE;
+
+//day between today and reservation
+59)SELECT ABS(ROUND(SYSDATE-DAY)) AS DAYS_FROM_CURR_TO_RESV FROM RESERVE;
+
+//shift reservation by 2 months
+60)SELECT DAY,ADD_MONTHS(DAY,2) AS SECOND_NEXT_MONTH FROM RESERVE;
+ 
+//show current date and time
+SELECT TO_CHAR(SYSDATE,'DD-MM-YYYY HH24:MI:SS') FROM DUAL;
+
+//show timestamp
+SELECT SYSTIMESTAMP FROM DUAL;
+
+//show today weekday
+SELECT TO_CHAR(SYSDATE,'DAY') FROM DUAL;
+
+//weekdays reserved
+SELECT TO_CHAR(DAY,'DAY') AS RESERVED_WEEKDAYS FROM RESERVE;
+
+//current,previous and next days
+SELECT DAY-1 AS PREV_DAY,DAY,DAY+1 AS NEXT_DAY FROM RESERVE;
+
+//shift reservations before to 3 months
+61)SELECT DAY,ADD_MONTHS(DAY,-3) AS THIRD_PREV_MONTH FROM RESERVE;
+
+//after sailing enjoy next monday as holiday.find day
+62)//so first check sedin monday kina then printing that day
+SELECT TO_CHAR(NEXT_DAY(DAY,'MONDAY'),'DAY'),NEXT_DAY(DAY,'MONDAY') AS VACATION_DAY FROM RESERVE;
+
+//display 3* before and after sname
+63)SELECT SNAME,LPAD(RPAD(SNAME,LENGTH(SNAME)+3,'*'),LENGTH(SNAME)+6,'*') FROM SAILOR;
+
+//names sounding similar to Dip
+SELECT SNAME FROM SAILOR WHERE SOUNDEX(SNAME)=SOUNDEX('Dip');
+
+//inserting date in any format
+INSERT INTO RESERVE VALUES('s64','104',TO_DATE('11/29/1998','MM/DD/YYYY'));
+
+//find date when sailing ends
+64)SELECT MAX(DAY) AS LAST_SAIL_DATE FROM RESERVE;
+
+//display all reservation day
+65)SELECT DAY FROM RESERVE;
+
+//position of kumar in sailor name
+66)SELECT INSTR(SNAME||MNAME||SURNAME,'Kumar') FROM SAILOR ;
+//since every name distinct so not needed->GROUP BY SNAME||MNAME||SURNAME;
+
+//display sailor name order by length
+67)SELECT SNAME|| ' ' ||MNAME|| ' '||SURNAME AS SAILOR_NAME FROM SAILOR ORDER BY LENGTH(SAILOR_NAME);
+
+//display sid,sname and availability of middle name print available or not available
+SELECT SID,SNAME,NVL(MNAME,'NOT PRESENT') FROM SAILOR;
+68)SELECT SID,SNAME,NVL2(MNAME,'NOT AVAILABLE','AVAILABLE') FROM SAILOR;
+
+//display reservation day like '22nd march twenty ten' and 12/09/1998
+69)i)SELECT DAY,TO_CHAR(DAY,'DDTH Month year') FROM RESERVE;
+ii)SELECT DAY,TO_CHAR(DAY,'DDTHSP Month year') FROM RESERVE;
+
+//SELECT DAY,TO_CHAR(DAY,'DDTHSP MonthSP year') FROM RESERVE;
+
+//find day of weekdays of reservation date
+70)SELECT TO_CHAR(DAY,'D Month year') FROM RESERVE;
+
+//find no. of day of weekdays of reservation date
+71)SELECT TO_CHAR(DAY,'DD Month year') FROM RESERVE;
+
+//find the number of days passed upto reservation date of that year.
+SELECT DAY,TO_CHAR(DAY,'D') FROM RESERVE;
+SELECT DAY,TO_CHAR(DAY,'DD') FROM RESERVE;
+72)SELECT DAY,TO_CHAR(DAY,'DDD') FROM RESERVE;
+
+//display the number of weeks of the year for reservation day.
+SELECT DAY,TO_CHAR(DAY,'W') FROM RESERVE;
+73)SELECT DAY,TO_CHAR(DAY,'WW') FROM RESERVE;
+
+//for each red boat count no. of reservations
+41)SELECT BID,COUNT(DAY) FROM RESERVE WHERE BID IN (SELECT BID FROM BOAT WHERE COLOR='red') GROUP BY BID;
+
+//find sailor with highest rating
+42)SELECT * FROM SAILOR WHERE RATING>=ALL(SELECT RATING FROM SAILOR);
+
+//find those rating for which average age of sailors is minimum  over all rating
+SELECT AVG(AGE),RATING FROM SAILOR GROUP BY RATING;
+44)SELECT AVG(AGE),RATING FROM SAILOR GROUP BY RATING HAVING AVG(AGE)<=ALL(SELECT AVG(AGE) FROM SAILOR GROUP BY RATING);
+
+//find sailors who have reserved all boats
+45)SELECT * FROM SAILOR S WHERE NOT EXISTS((SELECT BID FROM BOAT) MINUS (SELECT BID FROM RESERVE R WHERE S.SID=R.SID));
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

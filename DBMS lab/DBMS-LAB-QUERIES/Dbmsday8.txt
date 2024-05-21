@@ -1,0 +1,38 @@
+create sequence seq_name increment by -1 start with 108 maxvalue 108 minvalue 1 nocycle;
+
+create table person(ID number(3),Name varchar2(20),location varchar2(10));
+
+insert into person values(seq_name.nextval,'&Name','&Location');
+
+create sequence seq increment by 1 start with 1 maxvalue 10 minvalue 1 nocycle;
+
+ create table Tour(Tour_Id varchar2(10),Tour_Spot varchar2(25),Fare number(8),Type varchar2(20));
+
+insert into Tour(Tour_Id,Tour_Spot,Fare,Type) values ('T'||seq.nextval,'Gangtok',6000,'Delux');
+insert into Tour(Tour_Id,Tour_Spot,Fare,Type) values ('T'||seq.nextval,'Puri',2000,'General');
+insert into Tour(Tour_Id,Tour_Spot,Fare,Type) values ('T'||seq.nextval,'Nainital',9000,'Delux');
+insert into Tour(Tour_Id,Tour_Spot,Fare,Type) values ('T'||seq.nextval,'Andaman',12000,'General');
+insert into Tour(Tour_Id,Tour_Spot,Fare,Type) values ('T'||seq.nextval,'Madurai',7000,'Delux');
+
+1)create view TourView as select Tour_Spot,Fare from Tour where Type='Delux';
+
+2(a))select Tour_Spot from Tour where Fare>8000 and Type='Delux';
+
+2(b))select Tour_Spot from TourView where Fare>8000;
+
+3)insert into TourView(Tour_Spot,Fare) values ('Bangladesh',15000);
+
+4)
+select * from TourView;
+select * from Tour;
+
+5)
+update Tour set Type='Delux' where Tour_Id is null and Type is  null;
+select * from Tour;
+select * from TourView;
+
+6)create view Tour_type_num(Tour_type,TotalCount)as select Type,count(*) from Tour group by Type;
+
+7)insert into Tour_type_num(Tour_type,TotalCount) values ('General',count(*)); group function is not allowed here!
+insert into Tour_type_num(Tour_type,TotalCount) values ('General',count(*)); data manipulation operation not legal on this view!
+
